@@ -533,9 +533,11 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             _mockPipeline.LoginRequest.Should().NotBeNull();
 
-            _mockPipeline.LoginRequest.Parameters["someObj"].Should().NotBeNull();
-            var someObj2 = JsonConvert.DeserializeObject(_mockPipeline.LoginRequest.Parameters["someObj"], someObj.GetType());
+            _mockPipeline.LoginRequest.Parameters["someObj"].Should().BeNull();
+            var value = _mockPipeline.LoginRequest.Parameters["someObj"];
+            var someObj2 = JsonConvert.DeserializeObject(value, someObj.GetType());
             someObj.Should().BeEquivalentTo(someObj2);
+
             _mockPipeline.LoginRequest.Parameters["someArr"].Should().NotBeNull();
             var someArr2 = JsonConvert.DeserializeObject<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
             someArr2.Should().Contain(new[] { "a", "c", "b" });

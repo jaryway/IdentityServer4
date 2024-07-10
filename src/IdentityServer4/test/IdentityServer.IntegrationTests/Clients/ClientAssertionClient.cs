@@ -89,6 +89,7 @@ namespace IdentityServer.IntegrationTests.Clients
             {
                 Address = TokenEndpoint,
                 ClientId = "client",
+                ClientCredentialStyle = ClientCredentialStyle.PostBody,
 
                 ClientAssertion =
                 {

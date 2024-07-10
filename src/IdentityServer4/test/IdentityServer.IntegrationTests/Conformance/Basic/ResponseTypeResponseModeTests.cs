@@ -112,7 +112,7 @@ namespace IdentityServer.IntegrationTests.Conformance.Basic
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
-            _mockPipeline.ErrorMessage.Error.Should().Be(OidcConstants.AuthorizeErrors.InvalidRequest);
+            _mockPipeline.ErrorMessage.Error.Should().Be(OidcConstants.AuthorizeErrors.UnsupportedResponseType);
         }
     }
 }
