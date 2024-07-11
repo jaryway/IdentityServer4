@@ -8,6 +8,7 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
@@ -72,8 +73,9 @@ namespace IdentityServer4.Services
         {
             var header = await CreateHeaderAsync(token);
             var payload = await CreatePayloadAsync(token);
+            var s = new JwtSecurityToken(header, payload);
 
-            return await CreateJwtAsync(new JwtSecurityToken(header, payload));
+            return await CreateJwtAsync(s);
         }
 
         /// <summary>
@@ -133,6 +135,8 @@ namespace IdentityServer4.Services
         /// <returns>The signed JWT</returns>
         protected virtual Task<string> CreateJwtAsync(JwtSecurityToken jwt)
         {
+            //new JsonWebTokenHandler().CreateToken();
+
             var handler = new JwtSecurityTokenHandler();
             return Task.FromResult(handler.WriteToken(jwt));
         }

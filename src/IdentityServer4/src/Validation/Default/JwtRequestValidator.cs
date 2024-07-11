@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityModel.Client;
 using IdentityServer4.Configuration;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -26,7 +27,7 @@ namespace IdentityServer4.Validation
     {
         private readonly string _audienceUri;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        
+
         /// <summary>
         /// JWT handler
         /// </summary>
@@ -55,7 +56,7 @@ namespace IdentityServer4.Validation
         /// The logger
         /// </summary>
         protected readonly ILogger Logger;
-        
+
         /// <summary>
         /// The optione
         /// </summary>
@@ -67,7 +68,7 @@ namespace IdentityServer4.Validation
         public JwtRequestValidator(IHttpContextAccessor contextAccessor, IdentityServerOptions options, ILogger<JwtRequestValidator> logger)
         {
             _httpContextAccessor = contextAccessor;
-            
+
             Options = options;
             Logger = logger;
         }
@@ -181,8 +182,8 @@ namespace IdentityServer4.Validation
             }
 
             Handler.ValidateToken(jwtTokenString, tokenValidationParameters, out var token);
-            
-            return Task.FromResult((JwtSecurityToken)token);
+
+            return Task.FromResult((JwtSecurityToken) token);
         }
 
         /// <summary>
@@ -200,6 +201,10 @@ namespace IdentityServer4.Validation
                 {
                     var value = token.Payload[key];
 
+                    var t = value.GetType();
+                    var b = value is JObject;
+
+
                     switch (value)
                     {
                         case string s:
@@ -207,6 +212,9 @@ namespace IdentityServer4.Validation
                             break;
                         case JObject jobj:
                             payload.Add(key, jobj.ToString(Formatting.None));
+                            break;
+                        case System.Text.Json.JsonElement jele:
+                            payload.Add(key, jele.ToString());
                             break;
                         case JArray jarr:
                             payload.Add(key, jarr.ToString(Formatting.None));

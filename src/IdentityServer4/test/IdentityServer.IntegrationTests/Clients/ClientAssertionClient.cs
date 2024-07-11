@@ -66,6 +66,7 @@ namespace IdentityServer.IntegrationTests.Clients
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
+                ClientCredentialStyle = ClientCredentialStyle.PostBody,
 
                 ClientId = ClientId,
                 ClientAssertion =
@@ -111,6 +112,7 @@ namespace IdentityServer.IntegrationTests.Clients
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
+                ClientCredentialStyle = ClientCredentialStyle.PostBody,
 
                 ClientId = ClientId,
                 ClientAssertion =
@@ -128,6 +130,7 @@ namespace IdentityServer.IntegrationTests.Clients
             response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
+                ClientCredentialStyle = ClientCredentialStyle.PostBody,
 
                 ClientId = ClientId,
                 ClientAssertion =
@@ -149,7 +152,9 @@ namespace IdentityServer.IntegrationTests.Clients
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = TokenEndpoint,
-                //ClientId = ClientId,
+                ClientCredentialStyle = ClientCredentialStyle.PostBody,
+
+                ClientId = ClientId,
                 ClientAssertion =
                 {
                     Type = OidcConstants.ClientAssertionTypes.JwtBearer,

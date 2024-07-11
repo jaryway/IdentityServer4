@@ -40,8 +40,8 @@
     
     <!--misc -->
     <PackageReference Update="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.6.3" />
-    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.6.3" />
+    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.1.2" />
+    <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
     <PackageReference Update="System.Security.Principal.Windows" Version="4.7.0" />
     <PackageReference Update="AutoMapper" Version="13.0.1" />
     
