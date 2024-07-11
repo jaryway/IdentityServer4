@@ -20,7 +20,7 @@ namespace JsOidc
             //    {
             //        if (ctx.Response.ContentType?.StartsWith("text/html") == true)
             //        {
-            //            ctx.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; connect-src http://localhost:5000 http://localhost:3721; frame-src 'self' http://localhost:5000");
+            //            ctx.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; connect-src http://localhost:5000 http://localhost:3721; frame-src 'self' http://localhost:5000");
             //        }
             //        return Task.CompletedTask;
             //    });

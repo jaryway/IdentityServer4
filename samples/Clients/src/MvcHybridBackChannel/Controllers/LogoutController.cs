@@ -28,8 +28,8 @@ namespace MvcHybrid.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string logout_token)
         {
-            Response.Headers.Add("Cache-Control", "no-cache, no-store");
-            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Append("Cache-Control", "no-cache, no-store");
+            Response.Headers.Append("Pragma", "no-cache");
 
             try
             {

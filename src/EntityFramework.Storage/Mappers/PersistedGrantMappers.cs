@@ -17,7 +17,9 @@ namespace Jaryway.IdentityServer.EntityFramework.Mappers
             Mapper = new MapperConfiguration(cfg =>cfg.AddProfile<PersistedGrantMapperProfile>())
                 .CreateMapper();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static IMapper Mapper { get; }
 
         /// <summary>
