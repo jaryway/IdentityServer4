@@ -7,7 +7,8 @@ using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Stores;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -185,7 +186,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (persistKey)
                 {
-                    File.WriteAllText(filename, JsonConvert.SerializeObject(jwk));
+                    File.WriteAllText(filename, JsonSerializer.Serialize(jwk));
                 }
 
                 return builder.AddSigningCredential(key, signingAlgorithm);

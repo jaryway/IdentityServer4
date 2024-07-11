@@ -6,13 +6,15 @@ using IdentityModel;
 using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Jaryway.IdentityServer.Configuration;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace Jaryway.IdentityServer.Extensions
 {
@@ -89,9 +91,10 @@ namespace Jaryway.IdentityServer.Extensions
             // collection identity comparisons work for the anonymous type
             try
             {
-                var jsonTokens = jsonClaims.Select(x => new { x.Type, JsonValue = JRaw.Parse(x.Value) }).ToArray();
+                
+                var jsonTokens = jsonClaims.Select(x => new { x.Type, JsonValue = JsonNode.Parse(x.Value) }).ToArray();
 
-                var jsonObjects = jsonTokens.Where(x => x.JsonValue.Type == JTokenType.Object).ToArray();
+                var jsonObjects = jsonTokens.Where(x => x.JsonValue.GetValueKind() == JsonValueKind.Object).ToArray();
                 var jsonObjectGroups = jsonObjects.GroupBy(x => x.Type).ToArray();
                 foreach (var group in jsonObjectGroups)
                 {
@@ -112,7 +115,7 @@ namespace Jaryway.IdentityServer.Extensions
                     }
                 }
 
-                var jsonArrays = jsonTokens.Where(x => x.JsonValue.Type == JTokenType.Array).ToArray();
+                var jsonArrays = jsonTokens.Where(x => x.JsonValue.GetValueKind() == JsonValueKind.Array).ToArray();
                 var jsonArrayGroups = jsonArrays.GroupBy(x => x.Type).ToArray();
                 foreach (var group in jsonArrayGroups)
                 {
@@ -122,10 +125,10 @@ namespace Jaryway.IdentityServer.Extensions
                             $"Can't add two claims where one is a JSON array and the other is not a JSON array ({group.Key})");
                     }
 
-                    var newArr = new List<JToken>();
+                    var newArr = new List<JsonNode>();
                     foreach (var arrays in group)
                     {
-                        var arr = (JArray)arrays.JsonValue;
+                        var arr = (JsonArray) arrays.JsonValue;
                         newArr.AddRange(arr);
                     }
 

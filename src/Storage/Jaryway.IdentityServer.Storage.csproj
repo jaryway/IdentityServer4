@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <PackageId>Jaryway.IdentityServer.Storage</PackageId>
     <Description>Storage interfaces and models for Jaryway.IdentityServer</Description>
@@ -29,6 +29,9 @@
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="../../icon.jpg" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
@@ -36,7 +39,9 @@
   <ItemGroup>
     <PackageReference Include="IdentityModel" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Stores\Serialization\CustomContractResolver.cs" />
+  </ItemGroup>
 </Project>

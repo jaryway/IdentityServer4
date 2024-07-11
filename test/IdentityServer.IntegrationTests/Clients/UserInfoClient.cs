@@ -14,8 +14,9 @@ using IdentityModel.Client;
 using IdentityServer.IntegrationTests.Clients.Setup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using Xunit;
 
 namespace IdentityServer.IntegrationTests.Clients
@@ -172,19 +173,21 @@ namespace IdentityServer.IntegrationTests.Clients
             });
 
             response.IsError.Should().BeFalse();
-            
+
             var payload = GetPayload(response);
 
-            var scopes = ((JArray)payload["scope"]).Select(x => x.ToString()).ToArray();
-            scopes.Length.Should().Be(5);
+
+
+            var scopes = ((JsonElement) payload["scope"]).EnumerateArray().Select(m => m.ToString()).ToList();
+            scopes.Count.Should().Be(5);
             scopes.Should().Contain("openid");
             scopes.Should().Contain("email");
             scopes.Should().Contain("api1");
             scopes.Should().Contain("api4.with.roles");
             scopes.Should().Contain("roles");
 
-            var roles = ((JArray)payload["role"]).Select(x => x.ToString()).ToArray();
-            roles.Length.Should().Be(2);
+            var roles = ((JsonElement) payload["role"]).EnumerateArray().Select(m => m.ToString()).ToList();
+            roles.Count.Should().Be(2);
             roles.Should().Contain("Geek");
             roles.Should().Contain("Developer");
 
@@ -194,16 +197,16 @@ namespace IdentityServer.IntegrationTests.Clients
                 Token = response.AccessToken
             });
 
-            roles = userInfo.Json.TryGetStringArray("role").Select(x => x.ToString()).ToArray();
-            roles.Length.Should().Be(2);
+            roles = userInfo.Json.GetValueOrDefault().TryGetStringArray("role").ToList();
+            roles.Count.Should().Be(2);
             roles.Should().Contain("Geek");
             roles.Should().Contain("Developer");
         }
 
-        private Dictionary<string, object> GetPayload(TokenResponse response)
+        private Dictionary<string, JsonElement> GetPayload(TokenResponse response)
         {
             var token = response.AccessToken.Split('.').Skip(1).Take(1).First();
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(
+            var dictionary = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 Encoding.UTF8.GetString(Base64Url.Decode(token)));
 
             return dictionary;

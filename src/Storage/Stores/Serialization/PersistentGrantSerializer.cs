@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Jaryway.IdentityServer.Stores.Serialization
 {
@@ -12,13 +14,15 @@ namespace Jaryway.IdentityServer.Stores.Serialization
     /// <seealso cref="Jaryway.IdentityServer.Stores.Serialization.IPersistentGrantSerializer" />
     public class PersistentGrantSerializer : IPersistentGrantSerializer
     {
-        private static readonly JsonSerializerSettings _settings;
+        private static readonly JsonSerializerOptions _settings;
 
         static PersistentGrantSerializer()
         {
-            _settings = new JsonSerializerSettings
+            _settings = new JsonSerializerOptions
             {
-                ContractResolver = new CustomContractResolver()
+                IgnoreReadOnlyFields = true,
+                IgnoreReadOnlyProperties = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
             _settings.Converters.Add(new ClaimConverter());
             _settings.Converters.Add(new ClaimsPrincipalConverter());
@@ -32,7 +36,7 @@ namespace Jaryway.IdentityServer.Stores.Serialization
         /// <returns></returns>
         public string Serialize<T>(T value)
         {
-            return JsonConvert.SerializeObject(value, _settings);
+            return JsonSerializer.Serialize<T>(value, _settings);
         }
 
         /// <summary>
@@ -43,7 +47,7 @@ namespace Jaryway.IdentityServer.Stores.Serialization
         /// <returns></returns>
         public T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json, _settings);
+            return JsonSerializer.Deserialize<T>(json, _settings);
         }
     }
 }

@@ -1,8 +1,9 @@
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace Jaryway.IdentityServer.Extensions
 {
@@ -15,7 +16,7 @@ namespace Jaryway.IdentityServer.Extensions
 
         public override string SerializeToJson()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonSerializer.Serialize(this);
         }
     }
 }

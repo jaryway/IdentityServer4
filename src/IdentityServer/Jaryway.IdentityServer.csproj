@@ -42,7 +42,6 @@
   <ItemGroup>
     <PackageReference Include="IdentityModel" />
 
-    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" />
 
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(FrameworkVersion)" />

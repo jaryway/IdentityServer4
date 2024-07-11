@@ -3,7 +3,7 @@
   <PropertyGroup>
     <FrameworkVersion>8.0.7</FrameworkVersion>
     <ExtensionsVersion>8.0.0</ExtensionsVersion>
-    <EntityFrameworkVersion>8.0.0</EntityFrameworkVersion>
+    <EntityFrameworkVersion>8.0.7</EntityFrameworkVersion>
     
     <IdentityServerVersion>4.1.2-*</IdentityServerVersion>
   </PropertyGroup>
@@ -17,12 +17,12 @@
 
     <!--tests -->
     <PackageReference Update="FluentAssertions" Version="5.10.2" />
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Update="xunit" Version="2.6.2" />
-    <PackageReference Update="xunit.runner.visualstudio" Version="2.5.4" PrivateAssets="All" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Update="xunit" Version="2.7.0" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.5.7" PrivateAssets="All" />
 
     <!--our stuff -->
-    <PackageReference Update="IdentityModel" Version="6.2.0" />
+    <PackageReference Update="IdentityModel" Version="7.0.0" />
 
     <PackageReference Update="Jaryway.IdentityServer" Version="$(IdentityServerVersion)" />
     <PackageReference Update="Jaryway.IdentityServer.AspNetIdentity" Version="$(IdentityServerVersion)" />
@@ -39,7 +39,7 @@
     <PackageReference Update="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(ExtensionsVersion)" />
     
     <!--misc -->
-    <PackageReference Update="Newtonsoft.Json" Version="13.0.3" />
+    <!-- <PackageReference Update="Newtonsoft.Json" Version="13.0.3" /> -->
     <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.1.2" />
     <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
     <PackageReference Update="System.Security.Principal.Windows" Version="5.0.0" />

@@ -15,8 +15,11 @@ using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Security.Claims;
 
 namespace Jaryway.IdentityServer.Validation
 {
@@ -193,37 +196,43 @@ namespace Jaryway.IdentityServer.Validation
         /// <returns></returns>
         protected virtual Task<Dictionary<string, string>> ProcessPayloadAsync(JwtSecurityToken token)
         {
-            // filter JWT validation values
-            var payload = new Dictionary<string, string>();
-            foreach (var key in token.Payload.Keys)
-            {
-                if (!Constants.Filters.JwtRequestClaimTypesFilter.Contains(key))
-                {
-                    var value = token.Payload[key];
 
-                    var t = value.GetType();
-                    var b = value is JObject;
+            var filter = Constants.Filters.JwtRequestClaimTypesFilter.ToList();
+
+            var filtered = token.Claims.Where(claim => !filter.Contains(claim.Type));
+            return Task.FromResult(filtered.ToDictionary(m => m.Type, v => v.Value));
+
+            //// filter JWT validation values
+            //var payload = new Dictionary<string, JsonElement>();
+            //foreach (var key in token.Payload.Keys)
+            //{
+            //    if (!Constants.Filters.JwtRequestClaimTypesFilter.Contains(key))
+            //    {
+            //        var value = token.Payload[key];
+
+            //        //var t = value.GetType();
+            //        //var b = value is JObject;
 
 
-                    switch (value)
-                    {
-                        case string s:
-                            payload.Add(key, s);
-                            break;
-                        case JObject jobj:
-                            payload.Add(key, jobj.ToString(Formatting.None));
-                            break;
-                        case System.Text.Json.JsonElement jele:
-                            payload.Add(key, jele.ToString());
-                            break;
-                        case JArray jarr:
-                            payload.Add(key, jarr.ToString(Formatting.None));
-                            break;
-                    }
-                }
-            }
+            //        switch (value)
+            //        {
+            //            case string s:
+            //                payload.Add(key, s);
+            //                break;
+            //            case JObject jobj:
+            //                payload.Add(key, jobj.ToString(Formatting.None));
+            //                break;
+            //            case System.Text.Json.JsonElement jele:
+            //                payload.Add(key, jele.ToString());
+            //                break;
+            //            case JArray jarr:
+            //                payload.Add(key, jarr.ToString(Formatting.None));
+            //                break;
+            //        }
+            //    }
+            //}
 
-            return Task.FromResult(payload);
+            //return Task.FromResult(payload);
         }
     }
 }
