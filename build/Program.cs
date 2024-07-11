@@ -6,14 +6,14 @@ using static Bullseye.Targets;
 using static SimpleExec.Command;
 
 
-namespace build
+namespace Build
 {
     partial class Program
     {
-        private const string solution = "Jaryway.IdentityServer.sln";
-        private const string packOutput = "./artifacts";
-        private const string packOutputCopy = "../../nuget";
-        private const string envVarMissing = " environment variable is missing. Aborting.";
+        private const string Solution = "Jaryway.IdentityServer.sln";
+        private const string PackOutput = "./artifacts";
+        //private const string packOutputCopy = "../../nuget";
+        private const string EnvVarMissing = " environment variable is missing. Aborting.";
 
         private static class Targets
         {
@@ -36,12 +36,12 @@ namespace build
 
             Target(Targets.CleanBuildOutput, () =>
             {
-                Run("dotnet", $"clean {solution} -c Release -v m --nologo");
+                Run("dotnet", $"clean {Solution} -c Release -v m --nologo");
             });
 
             Target(Targets.Build, DependsOn(Targets.CleanBuildOutput), () =>
             {
-                Run("dotnet", $"build {solution} -c Release --nologo");
+                Run("dotnet", $"build {Solution} -c Release --nologo");
             });
 
             Target(Targets.SignBinary, DependsOn(Targets.Build), () =>
@@ -51,20 +51,20 @@ namespace build
 
             Target(Targets.Test, DependsOn(Targets.Build), () =>
             {
-                Run("dotnet", $"test {solution} -c Release --no-build");
+                Run("dotnet", $"test {Solution} -c Release --no-build");
             });
 
             Target(Targets.CleanPackOutput, () =>
             {
-                if (Directory.Exists(packOutput))
+                if (Directory.Exists(PackOutput))
                 {
-                    Directory.Delete(packOutput, true);
+                    Directory.Delete(PackOutput, true);
                 }
             });
 
             Target(Targets.Pack, DependsOn(Targets.Build, Targets.CleanPackOutput), () =>
             {
-                var directory = Directory.CreateDirectory(packOutput).FullName;
+                var directory = Directory.CreateDirectory(PackOutput).FullName;
                 Run("dotnet", $"pack ./src/Storage/Jaryway.IdentityServer.Storage.csproj -c Release -o {directory} --no-build --nologo");
                 Run("dotnet", $"pack ./src/IdentityServer/Jaryway.IdentityServer.csproj -c Release -o {directory} --no-build --nologo");
                 Run("dotnet", $"pack ./src/EntityFramework.Storage/Jaryway.IdentityServer.EntityFramework.Storage.csproj -c Release -o {directory} --no-build --nologo");
@@ -74,16 +74,16 @@ namespace build
 
             Target(Targets.SignPackage, DependsOn(Targets.Pack), () =>
             {
-                Sign(packOutput, "*.nupkg");
+                Sign(PackOutput, "*.nupkg");
             });
 
             Target(Targets.CopyPackOutput, DependsOn(Targets.Pack), () =>
             {
-                Directory.CreateDirectory(packOutputCopy);
+                Directory.CreateDirectory(PackOutput);
 
-                foreach (var file in Directory.GetFiles(packOutput))
+                foreach (var file in Directory.GetFiles(PackOutput))
                 {
-                    File.Copy(file, Path.Combine(packOutputCopy, Path.GetFileName(file)), true);
+                    File.Copy(file, Path.Combine(PackOutput, Path.GetFileName(file)), true);
                 }
             });
 
@@ -91,7 +91,7 @@ namespace build
 
             Target("sign", DependsOn(Targets.SignBinary, Targets.Test, Targets.SignPackage, Targets.CopyPackOutput));
 
-            await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException || ex.Message.EndsWith(envVarMissing));
+            await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException || ex.Message.EndsWith(EnvVarMissing));
         }
 
         private static void Sign(string path, string searchTerm)
@@ -100,7 +100,7 @@ namespace build
 
             if (string.IsNullOrWhiteSpace(signClientSecret))
             {
-                throw new Exception($"SignClientSecret{envVarMissing}");
+                throw new Exception($"SignClientSecret{EnvVarMissing}");
             }
 
             foreach (var file in Directory.GetFiles(path, searchTerm, SearchOption.AllDirectories))
