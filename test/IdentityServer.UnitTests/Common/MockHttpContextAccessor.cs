@@ -3,6 +3,7 @@
 
 
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Services;
 using Jaryway.IdentityServer.Stores;
@@ -31,6 +32,7 @@ namespace IdentityServer.UnitTests.Common
 
             services.AddSingleton<IAuthenticationSchemeProvider>(Schemes);
             services.AddSingleton<IAuthenticationService>(AuthenticationService);
+            services.AddSingleton<IClock>(new DefaultClock());
 
             services.AddAuthentication(auth =>
             {

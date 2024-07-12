@@ -9,7 +9,7 @@ namespace Jaryway.IdentityServer.Events
     /// <summary>
     /// Event for denied consent.
     /// </summary>
-    /// <seealso cref="IdentityServer4.Events.Event" />
+    /// <seealso cref="Jaryway.IdentityServer.Events.Event" />
     public class ConsentDeniedEvent : Event
     {
         /// <summary>

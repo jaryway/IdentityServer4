@@ -12,7 +12,7 @@ namespace Jaryway.IdentityServer.Endpoints.Results
     /// <summary>
     /// Result for a raw HTTP status code
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointResult" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointResult" />
     public class StatusCodeResult : IEndpointResult
     {
         /// <summary>

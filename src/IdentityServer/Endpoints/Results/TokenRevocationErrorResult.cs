@@ -13,7 +13,7 @@ namespace Jaryway.IdentityServer.Endpoints.Results
     /// <summary>
     /// Result for revocation error
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointResult" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointResult" />
     public class TokenRevocationErrorResult : IEndpointResult
     {
         /// <summary>

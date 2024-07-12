@@ -20,7 +20,7 @@ namespace Jaryway.IdentityServer.Endpoints
     /// <summary>
     /// The revocation endpoint
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointHandler" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointHandler" />
     internal class TokenRevocationEndpoint : IEndpointHandler
     {
         private readonly ILogger _logger;

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -22,7 +22,7 @@ namespace Jaryway.IdentityServer.EntityFramework.IntegrationTests.Services
     {
         public CorsPolicyServiceTests(DatabaseProviderFixture<ConfigurationDbContext> fixture) : base(fixture)
         {
-            foreach (var options in TestDatabaseProviders.SelectMany(x => x.Select(y => (DbContextOptions<ConfigurationDbContext>)y)).ToList())
+            foreach (var options in TestDatabaseProviders.SelectMany(x => x.Select(y => (DbContextOptions<ConfigurationDbContext>) y)).ToList())
             {
                 using (var context = new ConfigurationDbContext(options, StoreOptions))
                     context.Database.EnsureCreated();
@@ -30,7 +30,7 @@ namespace Jaryway.IdentityServer.EntityFramework.IntegrationTests.Services
         }
 
         [Theory, MemberData(nameof(TestDatabaseProviders))]
-        public void IsOriginAllowedAsync_WhenOriginIsAllowed_ExpectTrue(DbContextOptions<ConfigurationDbContext> options)
+        public async void IsOriginAllowedAsync_WhenOriginIsAllowed_ExpectTrue(DbContextOptions<ConfigurationDbContext> options)
         {
             const string testCorsOrigin = "https://identityserver.io/";
 
@@ -62,14 +62,14 @@ namespace Jaryway.IdentityServer.EntityFramework.IntegrationTests.Services
                 ctxAccessor.HttpContext = ctx;
 
                 var service = new CorsPolicyService(ctxAccessor, FakeLogger<CorsPolicyService>.Create());
-                result = service.IsOriginAllowedAsync(testCorsOrigin).Result;
+                result = await service.IsOriginAllowedAsync(testCorsOrigin);
             }
 
             Assert.True(result);
         }
 
         [Theory, MemberData(nameof(TestDatabaseProviders))]
-        public void IsOriginAllowedAsync_WhenOriginIsNotAllowed_ExpectFalse(DbContextOptions<ConfigurationDbContext> options)
+        public async void IsOriginAllowedAsync_WhenOriginIsNotAllowed_ExpectFalse(DbContextOptions<ConfigurationDbContext> options)
         {
             using (var context = new ConfigurationDbContext(options, StoreOptions))
             {
@@ -93,7 +93,7 @@ namespace Jaryway.IdentityServer.EntityFramework.IntegrationTests.Services
                 ctxAccessor.HttpContext = ctx;
 
                 var service = new CorsPolicyService(ctxAccessor, FakeLogger<CorsPolicyService>.Create());
-                result = service.IsOriginAllowedAsync("InvalidOrigin").Result;
+                result = await service.IsOriginAllowedAsync("InvalidOrigin");
             }
 
             Assert.False(result);

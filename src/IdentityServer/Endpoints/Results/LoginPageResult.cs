@@ -19,7 +19,7 @@ namespace Jaryway.IdentityServer.Endpoints.Results
     /// <summary>
     /// Result for login page
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointResult" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointResult" />
     public class LoginPageResult : IEndpointResult
     {
         private readonly ValidatedAuthorizeRequest _request;

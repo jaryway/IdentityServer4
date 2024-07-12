@@ -10,7 +10,7 @@ namespace Jaryway.IdentityServer.Events
     /// <summary>
     /// Event for successful token revocation
     /// </summary>
-    /// <seealso cref="IdentityServer4.Events.Event" />
+    /// <seealso cref="Jaryway.IdentityServer.Events.Event" />
     public class TokenRevokedSuccessEvent : Event
     {
         /// <summary>

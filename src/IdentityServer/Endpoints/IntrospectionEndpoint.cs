@@ -19,7 +19,7 @@ namespace Jaryway.IdentityServer.Endpoints
     /// <summary>
     /// Introspection endpoint
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointHandler" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointHandler" />
     internal class IntrospectionEndpoint : IEndpointHandler
     {
         private readonly IIntrospectionResponseGenerator _responseGenerator;

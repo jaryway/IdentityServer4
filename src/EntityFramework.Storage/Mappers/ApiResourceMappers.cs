@@ -18,6 +18,9 @@ namespace Jaryway.IdentityServer.EntityFramework.Mappers
                 .CreateMapper();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static IMapper Mapper { get; }
 
         /// <summary>

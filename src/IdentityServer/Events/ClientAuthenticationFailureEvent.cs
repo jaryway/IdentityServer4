@@ -7,7 +7,7 @@ namespace Jaryway.IdentityServer.Events
     /// <summary>
     /// Event for failed client authentication
     /// </summary>
-    /// <seealso cref="IdentityServer4.Events.Event" />
+    /// <seealso cref="Jaryway.IdentityServer.Events.Event" />
     public class ClientAuthenticationFailureEvent : Event
     {
         /// <summary>

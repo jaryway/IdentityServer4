@@ -16,7 +16,9 @@ namespace Jaryway.IdentityServer.EntityFramework.Mappers
             Mapper = new MapperConfiguration(cfg => cfg.AddProfile<ClientMapperProfile>())
                 .CreateMapper();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static IMapper Mapper { get; }
 
         /// <summary>

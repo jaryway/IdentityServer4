@@ -48,7 +48,7 @@ namespace Jaryway.IdentityServer.Services
 
             var uint32Buffer = new byte[8];
 
-            using (var rng = new RNGCryptoServiceProvider())
+            using (var rng = RandomNumberGenerator.Create())
             {
                 while (true)
                 {

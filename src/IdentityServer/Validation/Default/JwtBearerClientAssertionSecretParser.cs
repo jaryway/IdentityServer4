@@ -112,7 +112,7 @@ namespace Jaryway.IdentityServer.Validation
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Could not parse client assertion", e);
+                _logger.LogWarning("Could not parse client assertion {}", e);
                 return null;
             }
         }

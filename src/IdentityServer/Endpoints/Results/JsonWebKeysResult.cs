@@ -15,7 +15,7 @@ namespace Jaryway.IdentityServer.Endpoints.Results
     /// <summary>
     /// Result for the jwks document
     /// </summary>
-    /// <seealso cref="IdentityServer4.Hosting.IEndpointResult" />
+    /// <seealso cref="Jaryway.IdentityServer.Hosting.IEndpointResult" />
     public class JsonWebKeysResult : IEndpointResult
     {
         /// <summary>

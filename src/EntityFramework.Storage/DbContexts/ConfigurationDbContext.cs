@@ -34,7 +34,7 @@ namespace Jaryway.IdentityServer.EntityFramework.DbContexts
     /// DbContext for the IdentityServer configuration data.
     /// </summary>
     /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
-    /// <seealso cref="IdentityServer4.EntityFramework.Interfaces.IConfigurationDbContext" />
+    /// <seealso cref="Jaryway.IdentityServer.EntityFramework.Interfaces.IConfigurationDbContext" />
     public class ConfigurationDbContext<TContext> : DbContext, IConfigurationDbContext
         where TContext : DbContext, IConfigurationDbContext
     {

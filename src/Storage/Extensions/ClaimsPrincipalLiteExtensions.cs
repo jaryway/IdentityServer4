@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Jaryway.IdentityServer.Extensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ClaimsPrincipalLiteExtensions
     {
         /// <summary>

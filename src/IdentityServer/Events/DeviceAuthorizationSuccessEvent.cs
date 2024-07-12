@@ -11,7 +11,7 @@ namespace Jaryway.IdentityServer.Events
     /// <summary>
     /// Event for device authorization failure
     /// </summary>
-    /// <seealso cref="IdentityServer4.Events.Event" />
+    /// <seealso cref="Jaryway.IdentityServer.Events.Event" />
     public class DeviceAuthorizationSuccessEvent : Event
     {
         /// <summary>

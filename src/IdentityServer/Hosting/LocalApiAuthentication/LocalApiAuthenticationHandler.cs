@@ -3,6 +3,7 @@
 
 
 using IdentityModel;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Validation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -23,8 +24,8 @@ namespace Jaryway.IdentityServer.Hosting.LocalApiAuthentication
         private readonly ILogger _logger;
 
         /// <inheritdoc />
-        public LocalApiAuthenticationHandler(IOptionsMonitor<LocalApiAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, ITokenValidator tokenValidator)
-            : base(options, logger, encoder, clock)
+        public LocalApiAuthenticationHandler(IOptionsMonitor<LocalApiAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ITokenValidator tokenValidator)
+            : base(options, logger, encoder)
         {
             _tokenValidator = tokenValidator;
             _logger = logger.CreateLogger<LocalApiAuthenticationHandler>();

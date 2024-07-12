@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -17,7 +17,7 @@ namespace Jaryway.IdentityServer.AspNetIdentity
     /// IProfileService to integrate with ASP.NET Identity.
     /// </summary>
     /// <typeparam name="TUser">The type of the user.</typeparam>
-    /// <seealso cref="IdentityServer4.Services.IProfileService" />
+    /// <seealso cref="Jaryway.IdentityServer.Services.IProfileService" />
     public class ProfileService<TUser> : IProfileService
         where TUser : class
     {
