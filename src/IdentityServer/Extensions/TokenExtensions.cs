@@ -14,6 +14,7 @@ using System.Security.Claims;
 using Jaryway.IdentityServer.Configuration;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Extensions
 {
@@ -32,7 +33,7 @@ namespace Jaryway.IdentityServer.Extensions
         /// <returns></returns>
         /// <exception cref="Exception">
         /// </exception>
-        public static JwtPayload CreateJwtPayload(this Token token, ISystemClock clock, IdentityServerOptions options, ILogger logger)
+        public static JwtPayload CreateJwtPayload(this Token token, IClock clock, IdentityServerOptions options, ILogger logger)
         {
             var payload = new CustomJwtPayload(
                 token.Issuer,

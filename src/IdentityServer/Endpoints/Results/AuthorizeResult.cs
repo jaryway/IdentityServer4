@@ -16,6 +16,7 @@ using Jaryway.IdentityServer.Stores;
 using Jaryway.IdentityServer.ResponseHandling;
 using Microsoft.AspNetCore.Authentication;
 using System.Text.Encodings.Web;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Endpoints.Results
 {
@@ -33,7 +34,7 @@ namespace Jaryway.IdentityServer.Endpoints.Results
             IdentityServerOptions options,
             IUserSession userSession,
             IMessageStore<ErrorMessage> errorMessageStore,
-            ISystemClock clock)
+            IClock clock)
             : this(response)
         {
             _options = options;
@@ -45,14 +46,14 @@ namespace Jaryway.IdentityServer.Endpoints.Results
         private IdentityServerOptions _options;
         private IUserSession _userSession;
         private IMessageStore<ErrorMessage> _errorMessageStore;
-        private ISystemClock _clock;
+        private IClock _clock;
 
         private void Init(HttpContext context)
         {
             _options = _options ?? context.RequestServices.GetRequiredService<IdentityServerOptions>();
             _userSession = _userSession ?? context.RequestServices.GetRequiredService<IUserSession>();
             _errorMessageStore = _errorMessageStore ?? context.RequestServices.GetRequiredService<IMessageStore<ErrorMessage>>();
-            _clock = _clock ?? context.RequestServices.GetRequiredService<ISystemClock>();
+            _clock = _clock ?? context.RequestServices.GetRequiredService<IClock>();
         }
 
         public async Task ExecuteAsync(HttpContext context)

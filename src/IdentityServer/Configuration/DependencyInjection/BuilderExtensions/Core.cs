@@ -26,6 +26,7 @@ using static Jaryway.IdentityServer.Constants;
 using Jaryway.IdentityServer.Extensions;
 using Jaryway.IdentityServer.Hosting.FederatedSignOut;
 using Jaryway.IdentityServer.Services.Default;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -174,6 +175,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<IBackChannelLogoutService, DefaultBackChannelLogoutService>();
             builder.Services.TryAddTransient<IResourceValidator, DefaultResourceValidator>();
             builder.Services.TryAddTransient<IScopeParser, DefaultScopeParser>();
+            builder.Services.TryAddTransient<IClock, DefaultClock>();
 
             builder.AddJwtRequestUriHttpClient();
             builder.AddBackChannelLogoutHttpClient();

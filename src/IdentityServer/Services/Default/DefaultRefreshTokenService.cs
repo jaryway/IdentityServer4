@@ -12,6 +12,7 @@ using IdentityModel;
 using Jaryway.IdentityServer.Logging.Models;
 using Jaryway.IdentityServer.Validation;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Services
 {
@@ -38,7 +39,7 @@ namespace Jaryway.IdentityServer.Services
         /// <summary>
         /// The clock
         /// </summary>
-        protected ISystemClock Clock { get; }
+        protected IClock Clock { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultRefreshTokenService" /> class.
@@ -48,7 +49,7 @@ namespace Jaryway.IdentityServer.Services
         /// <param name="clock">The clock</param>
         /// <param name="logger">The logger</param>
         public DefaultRefreshTokenService(IRefreshTokenStore refreshTokenStore, IProfileService profile,
-            ISystemClock clock,
+            IClock clock,
             ILogger<DefaultRefreshTokenService> logger)
         {
             RefreshTokenStore = refreshTokenStore;

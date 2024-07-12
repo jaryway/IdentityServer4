@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using IdentityServer.UnitTests.Common;
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Services;
 using Jaryway.IdentityServer.Services.Default;
@@ -248,7 +249,7 @@ namespace IdentityServer.UnitTests.Validation.Setup
             IReferenceTokenStore store = null, 
             IRefreshTokenStore refreshTokenStore = null,
             IProfileService profile = null, 
-            IdentityServerOptions options = null, ISystemClock clock = null)
+            IdentityServerOptions options = null, IClock clock = null)
         {
             if (options == null)
             {
@@ -301,7 +302,7 @@ namespace IdentityServer.UnitTests.Validation.Setup
             IDeviceFlowCodeService service,
             IProfileService profile = null,
             IDeviceFlowThrottlingService throttlingService = null,
-            ISystemClock clock = null)
+            IClock clock = null)
         {
             profile = profile ?? new TestProfileService();
             throttlingService = throttlingService ?? new TestDeviceFlowThrottlingService();

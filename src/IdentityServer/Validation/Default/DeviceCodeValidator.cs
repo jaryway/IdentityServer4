@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityModel;
 using Jaryway.IdentityServer.Extensions;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -21,7 +22,7 @@ namespace Jaryway.IdentityServer.Validation
         private readonly IDeviceFlowCodeService _devices;
         private readonly IProfileService _profile;
         private readonly IDeviceFlowThrottlingService _throttlingService;
-        private readonly ISystemClock _systemClock;
+        private readonly IClock _systemClock;
         private readonly ILogger<DeviceCodeValidator> _logger;
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace Jaryway.IdentityServer.Validation
             IDeviceFlowCodeService devices,
             IProfileService profile,
             IDeviceFlowThrottlingService throttlingService,
-            ISystemClock systemClock,
+            IClock systemClock,
             ILogger<DeviceCodeValidator> logger)
         {
             _devices = devices;

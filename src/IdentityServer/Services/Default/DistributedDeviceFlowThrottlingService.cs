@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Distributed;
@@ -18,7 +19,7 @@ namespace Jaryway.IdentityServer.Services
     public class DistributedDeviceFlowThrottlingService : IDeviceFlowThrottlingService
     {
         private readonly IDistributedCache _cache;
-        private readonly ISystemClock _clock;
+        private readonly IClock _clock;
         private readonly IdentityServerOptions _options;
 
         private const string KeyPrefix = "devicecode_";
@@ -31,7 +32,7 @@ namespace Jaryway.IdentityServer.Services
         /// <param name="options">The options.</param>
         public DistributedDeviceFlowThrottlingService(
             IDistributedCache cache,
-            ISystemClock clock,
+            IClock clock,
             IdentityServerOptions options)
         {
             _cache = cache;

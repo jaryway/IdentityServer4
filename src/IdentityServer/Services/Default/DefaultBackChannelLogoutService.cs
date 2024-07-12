@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,7 @@ namespace Jaryway.IdentityServer.Services
         /// <summary>
         /// The system clock;
         /// </summary>
-        protected ISystemClock Clock { get; }
+        protected IClock Clock { get; }
         
         /// <summary>
         /// The IdentityServerTools used to create and the JWT.
@@ -58,7 +59,7 @@ namespace Jaryway.IdentityServer.Services
         /// <param name="backChannelLogoutHttpClient"></param>
         /// <param name="logger"></param>
         public DefaultBackChannelLogoutService(
-            ISystemClock clock,
+            IClock clock,
             IdentityServerTools tools,
             ILogoutNotificationService logoutNotificationService,
             IBackChannelLogoutHttpClient backChannelLogoutHttpClient,

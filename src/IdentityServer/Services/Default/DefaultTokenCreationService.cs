@@ -5,6 +5,7 @@
 using IdentityModel;
 using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Extensions;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace Jaryway.IdentityServer.Services
         /// <summary>
         ///  The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// The options
@@ -51,7 +52,7 @@ namespace Jaryway.IdentityServer.Services
         /// <param name="options">The options.</param>
         /// <param name="logger">The logger.</param>
         public DefaultTokenCreationService(
-            ISystemClock clock,
+            IClock clock,
             IKeyMaterialService keys,
             IdentityServerOptions options,
             ILogger<DefaultTokenCreationService> logger)

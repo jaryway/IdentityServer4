@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.ResponseHandling
 {
@@ -39,7 +40,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <summary>
         /// The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizeInteractionResponseGenerator"/> class.
@@ -49,7 +50,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <param name="consent">The consent.</param>
         /// <param name="profile">The profile.</param>
         public AuthorizeInteractionResponseGenerator(
-            ISystemClock clock,
+            IClock clock,
             ILogger<AuthorizeInteractionResponseGenerator> logger,
             IConsentService consent, 
             IProfileService profile)

@@ -12,12 +12,13 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Services
 {
     internal class DefaultIdentityServerInteractionService : IIdentityServerInteractionService
     {
-        private readonly ISystemClock _clock;
+        private readonly IClock _clock;
         private readonly IHttpContextAccessor _context;
         private readonly IMessageStore<LogoutMessage> _logoutMessageStore;
         private readonly IMessageStore<ErrorMessage> _errorMessageStore;
@@ -28,7 +29,7 @@ namespace Jaryway.IdentityServer.Services
         private readonly ReturnUrlParser _returnUrlParser;
 
         public DefaultIdentityServerInteractionService(
-            ISystemClock clock,
+            IClock clock,
             IHttpContextAccessor context,
             IMessageStore<LogoutMessage> logoutMessageStore,
             IMessageStore<ErrorMessage> errorMessageStore,

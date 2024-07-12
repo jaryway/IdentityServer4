@@ -7,6 +7,7 @@ using FluentAssertions;
 using IdentityServer.UnitTests.Common;
 using Jaryway.IdentityServer;
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.ResponseHandling;
 using Jaryway.IdentityServer.Services;
@@ -20,7 +21,7 @@ namespace IdentityServer.UnitTests.ResponseHandling.AuthorizeInteractionResponse
 {
     public class CustomAuthorizeInteractionResponseGenerator : Jaryway.IdentityServer.ResponseHandling.AuthorizeInteractionResponseGenerator
     {
-        public CustomAuthorizeInteractionResponseGenerator(ISystemClock clock, ILogger<Jaryway.IdentityServer.ResponseHandling.AuthorizeInteractionResponseGenerator> logger, IConsentService consent, IProfileService profile) : base(clock, logger, consent, profile)
+        public CustomAuthorizeInteractionResponseGenerator(IClock clock, ILogger<Jaryway.IdentityServer.ResponseHandling.AuthorizeInteractionResponseGenerator> logger, IConsentService consent, IProfileService profile) : base(clock, logger, consent, profile)
         {
         }
 

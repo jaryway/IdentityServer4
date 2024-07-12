@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 using System;
 
 namespace IdentityServer.UnitTests.Common
 {
-    class MockSystemClock : ISystemClock
+    class MockSystemClock : IClock
     {
         public DateTimeOffset Now { get; set; }
 

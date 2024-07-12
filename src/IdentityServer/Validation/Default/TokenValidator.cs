@@ -19,6 +19,7 @@ using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Logging.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Validation
 {
@@ -32,7 +33,7 @@ namespace Jaryway.IdentityServer.Validation
         private readonly IClientStore _clients;
         private readonly IProfileService _profile;
         private readonly IKeyMaterialService _keys;
-        private readonly ISystemClock _clock;
+        private readonly IClock _clock;
         private readonly TokenValidationLog _log;
 
         public TokenValidator(
@@ -44,7 +45,7 @@ namespace Jaryway.IdentityServer.Validation
             IRefreshTokenStore refreshTokenStore,
             ICustomTokenValidator customValidator,
             IKeyMaterialService keys,
-            ISystemClock clock,
+            IClock clock,
             ILogger<TokenValidator> logger)
         {
             _options = options;

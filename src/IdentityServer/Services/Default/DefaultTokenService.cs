@@ -5,6 +5,7 @@
 using IdentityModel;
 using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Extensions;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Stores;
 using Microsoft.AspNetCore.Authentication;
@@ -51,7 +52,7 @@ namespace Jaryway.IdentityServer.Services
         /// <summary>
         /// The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// The key material service
@@ -79,7 +80,7 @@ namespace Jaryway.IdentityServer.Services
             IReferenceTokenStore referenceTokenStore,
             ITokenCreationService creationService,
             IHttpContextAccessor contextAccessor,
-            ISystemClock clock,
+            IClock clock,
             IKeyMaterialService keyMaterialService,
             IdentityServerOptions options,
             ILogger<DefaultTokenService> logger)

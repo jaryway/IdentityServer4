@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Extensions;
+using Jaryway.IdentityServer.Infrastructure;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Services;
 using Jaryway.IdentityServer.Validation;
@@ -38,7 +39,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <summary>
         /// The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// The logger
@@ -53,7 +54,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <param name="deviceFlowCodeService">The device flow code service.</param>
         /// <param name="clock">The clock.</param>
         /// <param name="logger">The logger.</param>
-        public DeviceAuthorizationResponseGenerator(IdentityServerOptions options, IUserCodeService userCodeService, IDeviceFlowCodeService deviceFlowCodeService, ISystemClock clock, ILogger<DeviceAuthorizationResponseGenerator> logger)
+        public DeviceAuthorizationResponseGenerator(IdentityServerOptions options, IUserCodeService userCodeService, IDeviceFlowCodeService deviceFlowCodeService, IClock clock, ILogger<DeviceAuthorizationResponseGenerator> logger)
         {
             Options = options;
             UserCodeService = userCodeService;

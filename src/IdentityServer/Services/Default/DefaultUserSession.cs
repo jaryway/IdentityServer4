@@ -9,6 +9,7 @@ using Jaryway.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.Services
 {
@@ -36,7 +37,7 @@ namespace Jaryway.IdentityServer.Services
         /// <summary>
         /// The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// The logger
@@ -97,7 +98,7 @@ namespace Jaryway.IdentityServer.Services
             IHttpContextAccessor httpContextAccessor,
             IAuthenticationHandlerProvider handlers,
             IdentityServerOptions options,
-            ISystemClock clock,
+            IClock clock,
             ILogger<IUserSession> logger)
         {
             HttpContextAccessor = httpContextAccessor;

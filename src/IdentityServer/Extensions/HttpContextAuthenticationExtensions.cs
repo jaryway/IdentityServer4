@@ -4,6 +4,7 @@
 
 using Jaryway.IdentityServer;
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -39,9 +40,9 @@ namespace Microsoft.AspNetCore.Http
             await context.SignInAsync(await context.GetCookieAuthenticationSchemeAsync(), user.CreatePrincipal(), properties);
         }
 
-        internal static ISystemClock GetClock(this HttpContext context)
+        internal static IClock GetClock(this HttpContext context)
         {
-            return context.RequestServices.GetRequiredService<ISystemClock>();
+            return context.RequestServices.GetRequiredService<IClock>();
         }
 
         internal static async Task<string> GetCookieAuthenticationSchemeAsync(this HttpContext context)

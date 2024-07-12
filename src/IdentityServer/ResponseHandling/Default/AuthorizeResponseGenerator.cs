@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Jaryway.IdentityServer.Configuration;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.ResponseHandling
 {
@@ -46,7 +47,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <summary>
         /// The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// The key material service
@@ -63,7 +64,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <param name="authorizationCodeStore">The authorization code store.</param>
         /// <param name="events">The events.</param>
         public AuthorizeResponseGenerator(
-            ISystemClock clock,
+            IClock clock,
             ITokenService tokenService,
             IKeyMaterialService keyMaterialService,
             IAuthorizationCodeStore authorizationCodeStore,

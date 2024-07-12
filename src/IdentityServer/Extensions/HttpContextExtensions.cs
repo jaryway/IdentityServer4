@@ -12,6 +12,7 @@ using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Stores;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 #pragma warning disable 1591
 
@@ -197,7 +198,7 @@ namespace Jaryway.IdentityServer.Extensions
 
             if (endSessionMsg != null)
             {
-                var clock = context.RequestServices.GetRequiredService<ISystemClock>();
+                var clock = context.RequestServices.GetRequiredService<IClock>();
                 var msg = new Message<LogoutNotificationContext>(endSessionMsg, clock.UtcNow.UtcDateTime);
 
                 var endSessionMessageStore = context.RequestServices.GetRequiredService<IMessageStore<LogoutNotificationContext>>();

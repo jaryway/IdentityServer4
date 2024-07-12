@@ -31,6 +31,7 @@ namespace IdentityServer.IntegrationTests.Clients
         {
             var builder = new WebHostBuilder()
                 .UseStartup<Startup>();
+
             var server = new TestServer(builder);
 
             _client = server.CreateClient();

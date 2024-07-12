@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Jaryway.IdentityServer.Infrastructure;
 
 namespace Jaryway.IdentityServer.ResponseHandling
 {
@@ -55,7 +56,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <summary>
         ///  The clock
         /// </summary>
-        protected readonly ISystemClock Clock;
+        protected readonly IClock Clock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenResponseGenerator" /> class.
@@ -67,7 +68,7 @@ namespace Jaryway.IdentityServer.ResponseHandling
         /// <param name="resources">The resources.</param>
         /// <param name="clients">The clients.</param>
         /// <param name="logger">The logger.</param>
-        public TokenResponseGenerator(ISystemClock clock, ITokenService tokenService, IRefreshTokenService refreshTokenService, IScopeParser scopeParser, IResourceStore resources, IClientStore clients, ILogger<TokenResponseGenerator> logger)
+        public TokenResponseGenerator(IClock clock, ITokenService tokenService, IRefreshTokenService refreshTokenService, IScopeParser scopeParser, IResourceStore resources, IClientStore clients, ILogger<TokenResponseGenerator> logger)
         {
             Clock = clock;
             TokenService = tokenService;
