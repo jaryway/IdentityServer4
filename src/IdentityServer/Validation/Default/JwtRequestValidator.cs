@@ -2,24 +2,18 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityModel;
-using IdentityModel.Client;
 using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Extensions;
 using Jaryway.IdentityServer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-//using Newtonsoft.Json;
-//using Newtonsoft.Json.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Security.Claims;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Jaryway.IdentityServer.Validation
 {
@@ -196,43 +190,14 @@ namespace Jaryway.IdentityServer.Validation
         /// <returns></returns>
         protected virtual Task<Dictionary<string, string>> ProcessPayloadAsync(JwtSecurityToken token)
         {
-
             var filter = Constants.Filters.JwtRequestClaimTypesFilter.ToList();
-
             var filtered = token.Claims.Where(claim => !filter.Contains(claim.Type));
-            return Task.FromResult(filtered.ToDictionary(m => m.Type, v => v.Value));
+ 
+            var result = token.Payload
+                .Where(m => !filter.Contains(m.Key))
+                .ToDictionary(k => k.Key, v => v.Value.ToString());
 
-            //// filter JWT validation values
-            //var payload = new Dictionary<string, JsonElement>();
-            //foreach (var key in token.Payload.Keys)
-            //{
-            //    if (!Constants.Filters.JwtRequestClaimTypesFilter.Contains(key))
-            //    {
-            //        var value = token.Payload[key];
-
-            //        //var t = value.GetType();
-            //        //var b = value is JObject;
-
-
-            //        switch (value)
-            //        {
-            //            case string s:
-            //                payload.Add(key, s);
-            //                break;
-            //            case JObject jobj:
-            //                payload.Add(key, jobj.ToString(Formatting.None));
-            //                break;
-            //            case System.Text.Json.JsonElement jele:
-            //                payload.Add(key, jele.ToString());
-            //                break;
-            //            case JArray jarr:
-            //                payload.Add(key, jarr.ToString(Formatting.None));
-            //                break;
-            //        }
-            //    }
-            //}
-
-            //return Task.FromResult(payload);
+            return Task.FromResult(result);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -100,17 +100,18 @@ namespace IdentityServer.IntegrationTests.Conformance.Basic
 
             var state = Guid.NewGuid().ToString();
             var nonce = Guid.NewGuid().ToString();
+            string responseType = "__null__";
 
             var url = _mockPipeline.CreateAuthorizeUrl(
                 clientId: "code_client",
-                responseType: null, // missing
+                responseType: responseType, // missing
                 scope: "openid",
                 redirectUri: "https://code_client/callback",
                 state: state,
                 nonce: nonce);
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
-            var response = await _mockPipeline.BrowserClient.GetAsync(url);
+            var response = await _mockPipeline.BrowserClient.GetAsync(url.Replace(responseType, ""));
 
             _mockPipeline.ErrorMessage.Error.Should().Be(OidcConstants.AuthorizeErrors.UnsupportedResponseType);
         }

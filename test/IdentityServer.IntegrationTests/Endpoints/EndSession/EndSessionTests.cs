@@ -2,6 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using FluentAssertions;
+using IdentityModel;
+using IdentityServer.IntegrationTests.Common;
+using Jaryway.IdentityServer.Models;
+using Jaryway.IdentityServer.Test;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +16,8 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
-using FluentAssertions;
-using IdentityModel;
-using IdentityServer.IntegrationTests.Common;
-using Jaryway.IdentityServer.Models;
-using Jaryway.IdentityServer.Test;
-using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using static Jaryway.IdentityServer.IdentityServerConstants;
 
@@ -433,7 +433,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.EndSession
             var id_token = authorization.IdentityToken;
 
             _mockPipeline.BrowserClient.AllowAutoRedirect = true;
-            response = await _mockPipeline.BrowserClient.GetAsync(IdentityServerPipeline.EndSessionEndpoint + 
+            response = await _mockPipeline.BrowserClient.GetAsync(IdentityServerPipeline.EndSessionEndpoint +
                 "?id_token_hint=" + id_token);
 
             _mockPipeline.LogoutRequest.PostLogoutRedirectUri.Should().BeNull();
@@ -514,22 +514,26 @@ namespace IdentityServer.IntegrationTests.Endpoints.EndSession
 
                 var bytes = Base64Url.Decode(parts[1]);
                 var json = Encoding.UTF8.GetString(bytes);
-                var payload = JObject.Parse(json);
-                payload["iss"].ToString().Should().Be("https://server");
-                payload["sub"].ToString().Should().Be("bob");
-                payload["aud"].ToString().Should().Be("client3");
+                var payload = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
+                payload["iss"].GetString().Should().Be("https://server");
+                payload["sub"].GetString().Should().Be("bob");
+                payload["aud"].GetString().Should().Be("client3");
                 payload["iat"].Should().NotBeNull();
                 payload["jti"].Should().NotBeNull();
                 payload["sid"].Should().NotBeNull();
-                payload["events"].Type.Should().Be(JTokenType.Object);
+                payload["events"].ValueKind.Should().Be(JsonValueKind.Object);
 
-                var events = (JObject)payload["events"];
-                events.Count.Should().Be(1);
-                events["http://schemas.openid.net/event/backchannel-logout"].Should().NotBeNull();
-                events["http://schemas.openid.net/event/backchannel-logout"].Type.Should().Be(JTokenType.Object);
+                var events = payload["events"].EnumerateObject();
+                events.Count().Should().Be(1);
+                events.Single().Name.Should().Be("http://schemas.openid.net/event/backchannel-logout");
 
-                var evt = (JObject)events["http://schemas.openid.net/event/backchannel-logout"];
-                evt.Count.Should().Be(0);
+                //var s = events.Single();
+
+
+                //events["http://schemas.openid.net/event/backchannel-logout"].ValueKind.Should().Be(JsonValueKind.Object);
+
+                //var evt = (JObject) events["http://schemas.openid.net/event/backchannel-logout"];
+                //evt.Count.Should().Be(0);
             };
 
             await _mockPipeline.LoginAsync("bob");

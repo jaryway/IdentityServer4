@@ -21,7 +21,7 @@ using Jaryway.IdentityServer.Test;
 using Microsoft.AspNetCore.Components;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Xunit;
 
 namespace IdentityServer.IntegrationTests.Endpoints.Authorize
@@ -48,7 +48,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             _rsaKey = CryptoHelper.CreateRsaSecurityKey();
 
-            _mockPipeline.Clients.AddRange(new Client[] 
+            _mockPipeline.Clients.AddRange(new Client[]
             {
                 _client = new Client
                 {
@@ -77,13 +77,13 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
                         {
                             // RSA key as JWK
                             Type = IdentityServerConstants.SecretTypes.JsonWebKey,
-                            Value = JsonConvert.SerializeObject(JsonWebKeyConverter.ConvertFromRSASecurityKey(_rsaKey))
+                            Value = JsonSerializer.Serialize(JsonWebKeyConverter.ConvertFromRSASecurityKey(_rsaKey))
                         },
                         new Secret
                         {
                             // x509 cert as JWK
                             Type = IdentityServerConstants.SecretTypes.JsonWebKey,
-                            Value = JsonConvert.SerializeObject(JsonWebKeyConverter.ConvertFromX509SecurityKey(new X509SecurityKey(TestCert.Load())))
+                            Value = JsonSerializer.Serialize(JsonWebKeyConverter.ConvertFromX509SecurityKey(new X509SecurityKey(TestCert.Load())))
                         }
                     },
 
@@ -121,13 +121,13 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
                         {
                             // RSA key as JWK
                             Type = IdentityServerConstants.SecretTypes.JsonWebKey,
-                            Value = JsonConvert.SerializeObject(JsonWebKeyConverter.ConvertFromRSASecurityKey(_rsaKey))
+                            Value = JsonSerializer.Serialize(JsonWebKeyConverter.ConvertFromRSASecurityKey(_rsaKey))
                         },
                         new Secret
                         {
                             // x509 cert as JWK
                             Type = IdentityServerConstants.SecretTypes.JsonWebKey,
-                            Value = JsonConvert.SerializeObject(JsonWebKeyConverter.ConvertFromX509SecurityKey(new X509SecurityKey(TestCert.Load())))
+                            Value = JsonSerializer.Serialize(JsonWebKeyConverter.ConvertFromX509SecurityKey(new X509SecurityKey(TestCert.Load())))
                         }
                     },
 
@@ -184,9 +184,9 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             handler.OutboundClaimTypeMap.Clear();
 
             var token = handler.CreateJwtSecurityToken(
-                issuer: issuer, 
-                audience: audience, 
-                signingCredentials: credential, 
+                issuer: issuer,
+                audience: audience,
+                signingCredentials: credential,
                 subject: Identity.Create("pwd", claims));
 
             if (setJwtTyp)
@@ -196,7 +196,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             return handler.WriteToken(token);
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task missing_request_object_should_fail()
@@ -208,7 +208,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
                 state: "123state",
                 nonce: "123nonce",
                 redirectUri: "https://client/callback");
-            
+
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
             _mockPipeline.ErrorMessage.Error.Should().Be("invalid_request");
@@ -359,13 +359,13 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.LoginRequest.RequestObjectValues.Should().ContainKey("foo");
             _mockPipeline.LoginRequest.RequestObjectValues["foo"].Should().Be("123foo");
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task correct_jwt_typ_should_pass_strict_validation()
         {
             _mockPipeline.Options.StrictJarValidation = true;
-            
+
             var requestJwt = CreateRequestJwt(
                 issuer: _client.ClientId,
                 audience: IdentityServerPipeline.BaseUrl,
@@ -409,13 +409,13 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.LoginRequest.RequestObjectValues.Should().ContainKey("foo");
             _mockPipeline.LoginRequest.RequestObjectValues["foo"].Should().Be("123foo");
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task missing_jwt_typ_should_error()
         {
             _mockPipeline.Options.StrictJarValidation = true;
-            
+
             var requestJwt = CreateRequestJwt(
                 issuer: _client.ClientId,
                 audience: IdentityServerPipeline.BaseUrl,
@@ -446,7 +446,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.ErrorMessage.Error.Should().Be("invalid_request_object");
             _mockPipeline.LoginRequest.Should().BeNull();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task mismatch_in_jwt_values_should_error()
@@ -497,9 +497,9 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
         public async Task authorize_should_accept_complex_objects_in_request_object()
         {
             var someObj = new { foo = new { bar = "bar" }, baz = "baz" };
-            var someObjJson = JsonConvert.SerializeObject(someObj);
+            var someObjJson = JsonSerializer.Serialize(someObj);
             var someArr = new[] { "a", "b", "c" };
-            var someArrJson = JsonConvert.SerializeObject(someArr);
+            var someArrJson = JsonSerializer.Serialize(someArr);
 
 
             var requestJwt = CreateRequestJwt(
@@ -535,20 +535,20 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             _mockPipeline.LoginRequest.Parameters["someObj"].Should().NotBeNull();
             var value = _mockPipeline.LoginRequest.Parameters["someObj"];
-            var someObj2 = JsonConvert.DeserializeObject(value, someObj.GetType());
+            var someObj2 = JsonSerializer.Deserialize(value, someObj.GetType());
             someObj.Should().BeEquivalentTo(someObj2);
 
             _mockPipeline.LoginRequest.Parameters["someArr"].Should().NotBeNull();
-            var someArr2 = JsonConvert.DeserializeObject<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
+            var someArr2 = JsonSerializer.Deserialize<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
             someArr2.Should().Contain(new[] { "a", "c", "b" });
             someArr2.Length.Should().Be(3);
 
             _mockPipeline.LoginRequest.RequestObjectValues.Count.Should().Be(13);
             _mockPipeline.LoginRequest.RequestObjectValues["someObj"].Should().NotBeNull();
-            someObj2 = JsonConvert.DeserializeObject(_mockPipeline.LoginRequest.RequestObjectValues["someObj"], someObj.GetType());
+            someObj2 = JsonSerializer.Deserialize(_mockPipeline.LoginRequest.RequestObjectValues["someObj"], someObj.GetType());
             someObj.Should().BeEquivalentTo(someObj2);
             _mockPipeline.LoginRequest.RequestObjectValues["someArr"].Should().NotBeNull();
-            someArr2 = JsonConvert.DeserializeObject<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
+            someArr2 = JsonSerializer.Deserialize<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
             someArr2.Should().Contain(new[] { "a", "c", "b" });
             someArr2.Length.Should().Be(3);
         }
@@ -586,7 +586,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.ErrorMessage.ErrorDescription.Should().Be("Invalid client_id");
             _mockPipeline.LoginRequest.Should().BeNull();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task authorize_should_reject_jwt_request_without_client_id_in_jwt()
@@ -842,7 +842,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.ErrorMessage.ErrorDescription.Should().Be("Invalid JWT request");
             _mockPipeline.LoginRequest.Should().BeNull();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task authorize_should_ignore_request_uri_when_feature_is_disabled()
@@ -940,7 +940,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             _mockPipeline.JwtRequestMessageHandler.InvokeWasCalled.Should().BeTrue();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task authorize_should_accept_request_uri_with_valid_jwt_and_strict_validation()
@@ -996,7 +996,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
 
             _mockPipeline.JwtRequestMessageHandler.InvokeWasCalled.Should().BeTrue();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task authorize_should_reject_request_uri_with_valid_jwt_and_strict_validation_but_invalid_content_type()
@@ -1027,8 +1027,8 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
                 return Task.CompletedTask;
             };
             _mockPipeline.JwtRequestMessageHandler.Response.Content = new StringContent(requestJwt);
-            
-            
+
+
             var url = _mockPipeline.CreateAuthorizeUrl(
                 clientId: _client.ClientId,
                 responseType: "id_token",
@@ -1042,7 +1042,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.LoginRequest.Should().BeNull();
             _mockPipeline.JwtRequestMessageHandler.InvokeWasCalled.Should().BeTrue();
         }
-        
+
         [Fact]
         [Trait("Category", Category)]
         public async Task request_uri_response_returns_500_should_fail()

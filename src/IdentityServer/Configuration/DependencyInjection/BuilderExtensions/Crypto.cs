@@ -7,12 +7,11 @@ using Jaryway.IdentityServer.Configuration;
 using Jaryway.IdentityServer.Models;
 using Jaryway.IdentityServer.Stores;
 using Microsoft.IdentityModel.Tokens;
-//using Newtonsoft.Json;
-using System.Text.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using JsonWebKey = Microsoft.IdentityModel.Tokens.JsonWebKey;
 
 namespace Microsoft.Extensions.DependencyInjection
