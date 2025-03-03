@@ -9,6 +9,7 @@
     <AssemblyName>Jaryway.IdentityServer.EntityFramework</AssemblyName>
     <PackageTags>OAuth2;OAuth 2.0;OpenID Connect;Security;Identity;IdentityServer;EntityFramework</PackageTags>
     <PackageIcon>icon.jpg</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/IdentityServer/IdentityServer4</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/IdentityServer/IdentityServer4/releases</PackageReleaseNotes>
@@ -30,6 +31,7 @@
 
   <ItemGroup>
     <None Include="../../icon.jpg" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../docs/readme.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
